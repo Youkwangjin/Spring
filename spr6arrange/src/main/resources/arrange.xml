@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- Spring에서 MessageImpl하나의 객체만 사용할 때 singleton을 사용한다.  -->
+	<bean id="msgImpl" class="pack.MessageImpl" scope="singleton"> <!-- prototype, request, session -->
+		<!-- DI 방식 -->
+		<constructor-arg index="1">
+			<value>홍길동</value> <!-- String name1 안에 값을 넣어준다. -->
+		</constructor-arg>
+		<!--  
+		<constructor-arg index="0">
+			<value>홍두께</value>  String name2 안에 값을 넣어준다.
+		</constructor-arg>
+		--> 
+		<!-- index 순서대로 값이 들어간다 -->
+		<constructor-arg index="0" type="java.lang.String" value="홍두께" />		
+		<constructor-arg index="2" type="int" value="2000" /> <!-- type 생략시 기본은 String -->
+		<!-- myInfo 객체를 주입한다.  -->
+		<constructor-arg index="3" type="pack.MyInfo" ref="myInfo" />
+	
+		<!-- setter에 값 넣어주기 -->
+		<!-- DI 방식 -->
+		<property name="spec">
+			<value>자바 전문 개발자</value>
+		</property>
+		<property name="myInfo">
+			<ref bean="myInfo"/>
+		</property>
+		<property name="inter">
+			<ref bean="outDataImpl" />
+		</property>
+	</bean>
+	<bean id="myInfo" class="pack.MyInfo" scope="singleton"/>
+	<bean id="outDataImpl" class="etc.OutDataImpl">
+		<property name="filePath" value="c:/work/sprtest.txt" />
+	</bean>
+
+	
+</beans>
